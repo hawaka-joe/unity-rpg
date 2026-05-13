@@ -5,7 +5,7 @@ public class MountEntry : MonoBehaviour
 
     public Collider2D[] mountColliders;
     public Collider2D[] boundaryColliders;
-
+    private bool inMount = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,13 +14,14 @@ public class MountEntry : MonoBehaviour
         {
             foreach (Collider2D collider in mountColliders)
             {
-                collider.enabled = false;
+                collider.enabled = inMount;
             }
             foreach (Collider2D collider in boundaryColliders)
             {
-                collider.enabled = true;
+                collider.enabled = !inMount;
             }
         }
-        collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 15;
+        collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = inMount ? 5 : 15;
+        inMount = !inMount;
     }
 }
